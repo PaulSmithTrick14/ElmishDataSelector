@@ -96,7 +96,7 @@ module Pane =
                                 | _ -> Report.init()),
                       snd,
                       ReportMsg,
-                      (fun () -> Report.bindings())
+                      Report.bindings
                     )
     "InputModel" |> Binding.subModel(
                       (fun m -> match m.Specific with
@@ -104,7 +104,7 @@ module Pane =
                                 | _ -> Input.init()),
                       snd,
                       InputMsg,
-                      (fun () -> Input.bindings())
+                      Input.bindings
                     )
   ]
 
@@ -143,7 +143,7 @@ module App =
       (fun m -> m.CurrentPane),
       snd,
       PaneMsg,
-      (fun () -> Pane.bindings()))
+      Pane.bindings)
   ]
 
   let main window =
