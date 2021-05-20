@@ -51,6 +51,7 @@ module Input =
   let bindings () : Binding<Model, Msg> list = [
     "GoBack" |> Binding.cmd Earlier
     "GoForward" |> Binding.cmd Later
+    "StartDate" |> Binding.oneWay (fun m -> m.StartDate )
   ]
 
 module Pane =
@@ -72,7 +73,7 @@ module Pane =
 
   let init() =
     { Valid = false
-      Specific = ShowReport (Report.init()) }
+      Specific = GatherInput (Input.init()) }
 
   let update msg m =
     match msg with
@@ -129,7 +130,9 @@ module App =
     | SetInputPanel -> { m with CurrentPane = {
                             Valid = m.CurrentPane.Valid
                             Specific = Pane.Panes.GatherInput (Input.init()) } }
-    | SetReportPanel -> { m with CurrentPane = Pane.init() }
+    | SetReportPanel -> { m with CurrentPane = {
+                             Valid = m.CurrentPane.Valid
+                             Specific = Pane.Panes.ShowReport (Report.init()) } }
 
   let bindings () : Binding<Model, Msg> list = [
     "Toggle" |> Binding.cmd ToggleGlobalState
